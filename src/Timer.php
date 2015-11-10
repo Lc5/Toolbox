@@ -7,7 +7,8 @@ namespace Lc5\Toolbox;
  *
  * @author Łukasz Krzyszczak <lukasz.krzyszczak@gmail.com>
  */
-class Timer {
+class Timer
+{
 
     /**
      * @var float

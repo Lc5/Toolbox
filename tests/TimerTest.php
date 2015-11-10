@@ -9,6 +9,7 @@ namespace Lc5\Toolbox;
  */
 class TimerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var Timer
      */
