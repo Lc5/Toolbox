@@ -63,7 +63,9 @@ class TypedCollection extends \ArrayObject
     private function checkType($element)
     {
         if (gettype($element) !== $this->type && !$element instanceof $this->type) {
-            throw new \UnexpectedValueException('Invalid element type: ' . gettype($element) . '. Only ' . $this->type . ' is allowed.');
+            throw new \UnexpectedValueException(
+                'Invalid element type: ' . gettype($element) . '. Only ' . $this->type . ' is allowed.'
+            );
         }
     }
 }
