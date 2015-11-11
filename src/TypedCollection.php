@@ -5,7 +5,7 @@ namespace Lc5\Toolbox;
 /**
  * Class TypedCollection
  *
- * @author £ukasz Krzyszczak <lukasz.krzyszczak@gmail.com>
+ * @author ≈Åukasz Krzyszczak <lukasz.krzyszczak@gmail.com>
  */
 class TypedCollection extends \ArrayObject
 {
