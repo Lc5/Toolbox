@@ -1,28 +1,30 @@
 <?php
 
-namespace Lc5\Toolbox;
+namespace Lc5\Toolbox\TypedCollection;
 
 /**
- * Class TypedCollection
+ * Class AbstractTypedCollection
  *
  * @author Łukasz Krzyszczak <lukasz.krzyszczak@gmail.com>
  */
-class TypedCollection extends \ArrayObject
+abstract class AbstractTypedCollection extends \ArrayObject
 {
-    /**
-     * @var string
-     */
-    private $type;
 
     /**
-     * @param string $type
+     * @return string
+     */
+    abstract protected function getType();
+
+    /**
      * @param array|null $elements
      * @param int $flags
      * @param string $iteratorClass
      */
-    public function __construct($type, array $elements = null, $flags = 0, $iteratorClass = 'ArrayIterator')
+    public function __construct(array $elements = null, $flags = 0, $iteratorClass = 'ArrayIterator')
     {
-        $this->type = $type;
+        if (!is_string($this->getType()) || strlen($this->getType()) === 0) {
+            throw new \LogicException(__CLASS__ . '::getType should return not empty string.');
+        }
 
         $elements = (array) $elements;
 
@@ -62,9 +64,11 @@ class TypedCollection extends \ArrayObject
      */
     private function checkType($element)
     {
-        if (gettype($element) !== $this->type && !$element instanceof $this->type) {
+        $type = $this->getType();
+
+        if (gettype($element) !== $type && !$element instanceof $type) {
             throw new \UnexpectedValueException(
-                'Invalid element type: ' . gettype($element) . '. Only ' . $this->type . ' is allowed.'
+                'Invalid element type: ' . gettype($element) . '. Only ' . $type . ' is allowed.'
             );
         }
     }

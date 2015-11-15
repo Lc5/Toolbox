@@ -1,13 +1,13 @@
 <?php
 
-namespace Lc5\Toolbox;
+namespace Lc5\Toolbox\TypedCollection;
 
 /**
  * Class TypedCollectionTest
  *
  * @author Łukasz Krzyszczak <lukasz.krzyszczak@gmail.com>
  */
-class TypedCollectionTest extends \PHPUnit_Framework_TestCase
+class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -17,7 +17,7 @@ class TypedCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct($type, $elements)
     {
-        $collection = new TypedCollection($type, $elements);
+        $collection = $this->buildCollection($type, $elements);
 
         $this->assertSame($elements, (array) $collection);
     }
@@ -29,7 +29,7 @@ class TypedCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testOffsetSet($type, $element)
     {
-        $collection   = new TypedCollection($type);
+        $collection   = $this->buildCollection($type);
         $collection[] = $element;
 
         $this->assertSame($element, reset($collection));
@@ -42,10 +42,20 @@ class TypedCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testExchangeArray($type, $elements)
     {
-        $collection = new TypedCollection($type);
+        $collection = $this->buildCollection($type);
         $collection->exchangeArray($elements);
 
         $this->assertSame($elements, (array) $collection);
+    }
+
+    /**
+     * @dataProvider invalidTypeDataProvider
+     * @param string $type
+     * @expectedException \LogicException
+     */
+    public function testConstructThrowsLogicException($type)
+    {
+        $this->buildCollection($type);
     }
 
     /**
@@ -54,9 +64,9 @@ class TypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param array $elements
      * @expectedException \UnexpectedValueException
      */
-    public function testConstructThrowsException($type, $elements)
+    public function testConstructThrowsUnexpectedValueException($type, $elements)
     {
-        new TypedCollection($type, $elements);
+        $this->buildCollection($type, $elements);
     }
 
     /**
@@ -65,9 +75,9 @@ class TypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param array $element
      * @expectedException \UnexpectedValueException
      */
-    public function testOffsetSetThrowsException($type, $element)
+    public function testOffsetSetThrowsUnexpectedValueException($type, $element)
     {
-        $collection   = new TypedCollection($type);
+        $collection   = $this->buildCollection($type);
         $collection[] = $element;
     }
 
@@ -77,10 +87,30 @@ class TypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param array $elements
      * @expectedException \UnexpectedValueException
      */
-    public function testExchangeArrayThrowsException($type, $elements)
+    public function testExchangeArrayThrowsUnexpectedValueException($type, $elements)
     {
-        $collection = new TypedCollection($type);
+        $collection = $this->buildCollection($type);
         $collection->exchangeArray($elements);
+    }
+
+    /**
+     * @param string $type
+     * @param array|null $elements
+     * @return AbstractTypedCollection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function buildCollection($type, $elements = null)
+    {
+        $collection = $this->getMockBuilder('Lc5\Toolbox\TypedCollection\AbstractTypedCollection')
+            ->disableOriginalConstructor()
+            ->setMethods(['getType'])
+            ->getMockForAbstractClass();
+
+        $collection->expects($this->any())->method('getType')->will($this->returnValue($type));
+
+        $reflectedClass = new \ReflectionClass('Lc5\Toolbox\TypedCollection\AbstractTypedCollection');
+        $reflectedClass->getConstructor()->invoke($collection, $elements);
+
+        return $collection;
     }
 
     /**
@@ -257,6 +287,21 @@ class TypedCollectionTest extends \PHPUnit_Framework_TestCase
             ['Closure', $allTypes['resource']],
             ['Closure', $allTypes['NULL']],
             ['Closure', $allTypes['stdClass']]
+        ];
+    }
+
+    public function invalidTypeDataProvider()
+    {
+        return [
+            [true],
+            [1],
+            [1.11],
+            [''],
+            [[]],
+            [new \stdClass()],
+            [fopen('php://memory', 'r')],
+            [null],
+            [function(){}]
         ];
     }
 }
