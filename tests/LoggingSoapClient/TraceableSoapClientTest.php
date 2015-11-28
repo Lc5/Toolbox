@@ -5,7 +5,7 @@ namespace Lc5\Toolbox\LoggingSoapClient;
 /**
  * Class TraceableSoapClientTest
  *
- * @author £ukasz Krzyszczak <lukasz.krzyszczak@gmail.com>
+ * @author ≈Åukasz Krzyszczak <lukasz.krzyszczak@gmail.com>
  */
 class TraceableSoapClientTest extends \PHPUnit_Framework_TestCase
 {
