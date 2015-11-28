@@ -4,6 +4,7 @@
     <testsuites>
         <testsuite name="unit">
             <directory>./tests/</directory>
+            <exclude>./tests/LoggingSoapClient/LoggingSoapClientIntegrationTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
