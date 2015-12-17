@@ -21,7 +21,7 @@ class Timer
     private $totalTime;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $isStarted;
 
