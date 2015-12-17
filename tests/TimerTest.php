@@ -43,32 +43,6 @@ class TimerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(3.0, $this->timer->getTime());
     }
 
-    public function testGetTimeStoppedFirst()
-    {
-        $this->timer->stop();
-        $this->timer->start();
-
-        $this->assertSame(1.0, $this->timer->getTime());
-    }
-
-    public function testGetTimeStartedTwice()
-    {
-        $this->timer->start();
-        $this->timer->start();
-        $this->timer->stop();
-
-        $this->assertSame(1.0, $this->timer->getTime());
-    }
-
-    public function testGetTimeStoppedTwice()
-    {
-        $this->timer->start();
-        $this->timer->stop();
-        $this->timer->stop();
-
-        $this->assertSame(1.0, $this->timer->getTime());
-    }
-
     public function testReset()
     {
         $this->timer->start();
@@ -76,6 +50,43 @@ class TimerTest extends \PHPUnit_Framework_TestCase
         $this->timer->reset();
 
         $this->assertEquals(0.0, $this->timer->getTime());
+    }
+
+    public function testGetTimeShowsCumulativeValues()
+    {
+        $this->timer->start();
+        $this->timer->stop();
+        $this->timer->start();
+        $this->timer->stop();
+
+        $this->assertSame(2.0, $this->timer->getTime());
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testGetTimeStartedTwiceThrowsException()
+    {
+        $this->timer->start();
+        $this->timer->start();
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testGetTimeStoppedFirstThrowsException()
+    {
+        $this->timer->stop();
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testGetTimeStoppedTwiceThrowsException()
+    {
+        $this->timer->start();
+        $this->timer->stop();
+        $this->timer->stop();
     }
 }
 

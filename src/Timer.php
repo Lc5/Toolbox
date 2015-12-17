@@ -18,7 +18,7 @@ class Timer
     /**
      * @var float
      */
-    private $stopTime;
+    private $totalTime;
 
     /**
      * @var boolean
@@ -33,25 +33,28 @@ class Timer
     public function reset()
     {
         $this->startTime = 0.0;
-        $this->stopTime  = 0.0;
+        $this->totalTime = 0.0;
         $this->isStarted = false;
     }
 
     public function start()
     {
-        if (!$this->isStarted) {
-            $this->reset();
-            $this->startTime = microtime(true);
-            $this->isStarted = true;
+        if ($this->isStarted) {
+            throw new \LogicException('Timer already started!');
         }
+
+        $this->startTime = microtime(true);
+        $this->isStarted = true;
     }
 
     public function stop()
     {
-        if ($this->isStarted) {
-            $this->stopTime  = microtime(true);
-            $this->isStarted = false;
+        if (!$this->isStarted) {
+            throw new \LogicException('Timer already stopped!');
         }
+
+        $this->totalTime += microtime(true) - $this->startTime;
+        $this->isStarted = false;
     }
 
     /**
@@ -59,8 +62,6 @@ class Timer
      */
     public function getTime()
     {
-        $stopTime = $this->isStarted ? microtime(true) : $this->stopTime;
-
-        return $stopTime - $this->startTime;
+        return $this->isStarted ? microtime(true) - $this->startTime : $this->totalTime;
     }
 }
