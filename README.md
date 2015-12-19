@@ -8,7 +8,7 @@ bundled with Monolog and custom ```MessageXmlFormatter```, which pretty-formats 
 
 Usage:
  
-```
+```php
 use Lc5\Toolbox\LoggingSoapClient\LoggingSoapClient;
 use Lc5\Toolbox\LoggingSoapClient\TraceableSoapClient;
 use Lc5\Toolbox\LoggingSoapClient\MessageXmlFormatter;
@@ -30,7 +30,7 @@ A simple timer used mainly for development purposes.
 
 Usage:
 
-```
+```php
 use Lc5\Toolbox\Timer;
 
 $timer = new Timer();
@@ -59,7 +59,7 @@ will be thrown, when trying to add element with invalid type.
         
 Usage: 
   
-```
+```php
 use Lc5\Toolbox\TypedCollection\AbstractTypedCollection;
 
 class stdClassCollection extends AbstractTypedCollection
@@ -99,7 +99,7 @@ with invalid type.
 
 Usage:
 
-```
+```php
 use Lc5\Toolbox\TypedCollection\TypedCollection;
 
 $elements = [new \stdClass(), new \stdClass()]
