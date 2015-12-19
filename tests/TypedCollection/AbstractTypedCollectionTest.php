@@ -15,7 +15,7 @@ class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param string $type
      * @param array $elements
      */
-    public function testConstruct($type, $elements)
+    public function testConstruct($type, array $elements)
     {
         $collection = $this->buildCollection($type, $elements);
 
@@ -25,7 +25,7 @@ class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider validDataProvider
      * @param string $type
-     * @param array $element
+     * @param mixed $element
      */
     public function testOffsetSet($type, $element)
     {
@@ -40,7 +40,7 @@ class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param string $type
      * @param array $elements
      */
-    public function testExchangeArray($type, $elements)
+    public function testExchangeArray($type, array $elements)
     {
         $collection = $this->buildCollection($type);
         $collection->exchangeArray($elements);
@@ -64,7 +64,7 @@ class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param array $elements
      * @expectedException \UnexpectedValueException
      */
-    public function testConstructThrowsUnexpectedValueException($type, $elements)
+    public function testConstructThrowsUnexpectedValueException($type, array $elements)
     {
         $this->buildCollection($type, $elements);
     }
@@ -72,7 +72,7 @@ class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param string $type
-     * @param array $element
+     * @param mixed $element
      * @expectedException \UnexpectedValueException
      */
     public function testOffsetSetThrowsUnexpectedValueException($type, $element)
@@ -87,7 +87,7 @@ class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param array $elements
      * @expectedException \UnexpectedValueException
      */
-    public function testExchangeArrayThrowsUnexpectedValueException($type, $elements)
+    public function testExchangeArrayThrowsUnexpectedValueException($type, array $elements)
     {
         $collection = $this->buildCollection($type);
         $collection->exchangeArray($elements);
@@ -98,7 +98,7 @@ class AbstractTypedCollectionTest extends \PHPUnit_Framework_TestCase
      * @param array|null $elements
      * @return AbstractTypedCollection|\PHPUnit_Framework_MockObject_MockObject
      */
-    private function buildCollection($type, $elements = null)
+    private function buildCollection($type, array $elements = null)
     {
         $collection = $this->getMockBuilder('Lc5\Toolbox\TypedCollection\AbstractTypedCollection')
             ->disableOriginalConstructor()

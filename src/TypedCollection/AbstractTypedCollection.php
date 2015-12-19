@@ -47,7 +47,7 @@ abstract class AbstractTypedCollection extends \ArrayObject
     }
 
     /**
-     * @param array $elements
+     * @param mixed $elements
      * @return array
      */
     public function exchangeArray($elements)
