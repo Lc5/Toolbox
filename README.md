@@ -47,9 +47,8 @@ $timer->stop();
 
 echo $timer->getTime() . PHP_EOL;
 ```
-## TypedCollection
 
-### AbstractTypedCollection:
+## AbstractTypedCollection:
 
 An abstract class used to create strictly typed collections implemented as a type-checking wrapper around ```ArrayObject```.
 The type of elements in collection is defined by extending ```AbstractTypedCollection``` and implementing abstract
@@ -58,7 +57,7 @@ of the internal types in a form recognised by internal [gettype()](http://php.ne
 (```"boolean", "integer", "double", "string", "array", "object", "resource", "NULL"```). ```\UnexpectedValueException```
 will be thrown, when trying to add element with invalid type.
         
-#### Usage:
+### Usage:
   
 ```php
 use Lc5\Toolbox\TypedCollection\AbstractTypedCollection;
@@ -90,7 +89,7 @@ try {
 
 ```
 
-### TypedCollection:
+## TypedCollection:
 
 A strict typed collection based on ArrayObject. The type of elements in collection is defined using constructor
 argument, which can be any class name or one of the internal types in a form recognised by internal
@@ -98,7 +97,7 @@ argument, which can be any class name or one of the internal types in a form rec
 "array", "object", "resource", "NULL"```). ```\UnexpectedValueException``` will be thrown, when trying to add element
 with invalid type.
 
-#### Usage:
+### Usage:
 
 ```php
 use Lc5\Toolbox\TypedCollection\TypedCollection;
