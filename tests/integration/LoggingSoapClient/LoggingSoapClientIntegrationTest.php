@@ -24,7 +24,7 @@ class LoggingSoapClientIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $soapClient->getWeather(['CityName' => 'Wroclaw', 'CountryName' => 'Poland']);
 
-        $this->assertEquals([
+        $this->assertSame([
             ['message' => $soapClient->__getLastRequest(), 'context' => ['type' => 'Request']],
             ['message' => $soapClient->__getLastResponse(), 'context' => ['type' => 'Response']]
         ], $logger->messages);
@@ -37,7 +37,7 @@ class LoggingSoapClientIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $soapClient->__soapCall('getWeather', [['CityName' => 'Wroclaw', 'CountryName' => 'Poland']]);
 
-        $this->assertEquals([
+        $this->assertSame([
             ['message' => $soapClient->__getLastRequest(), 'context' => ['type' => 'Request']],
             ['message' => $soapClient->__getLastResponse(), 'context' => ['type' => 'Response']]
         ], $logger->messages);
@@ -62,7 +62,7 @@ TEXT;
 
         $response = $soapClient->__doRequest($request, $this->serviceUrl, 'http://www.webserviceX.NET/GetWeather', SOAP_1_1);
 
-        $this->assertEquals([
+        $this->assertSame([
             ['message' => $request, 'context' => ['type' => 'Request']],
             ['message' => $response, 'context' => ['type' => 'Response']]
         ], $logger->messages);
