@@ -6,7 +6,7 @@ Set of development classes and scripts.
 A SOAP client which logs every request and response using any PSR-3 logger. Can be used out of the box, as it comes
 bundled with Monolog and custom ```MessageXmlFormatter```, which pretty-formats logged XML message.
 
-Usage:
+### Usage:
  
 ```php
 use Lc5\Toolbox\LoggingSoapClient\LoggingSoapClient;
@@ -28,7 +28,7 @@ $soapClient = new LoggingSoapClient(new TraceableSoapClient($this->serviceUrl), 
 
 A simple timer used mainly for development purposes.
 
-Usage:
+### Usage:
 
 ```php
 use Lc5\Toolbox\Timer;
@@ -37,14 +37,15 @@ $timer = new Timer();
 
 $timer->start();
 
-echo $timer->getTime();
-
 //some code to benchmark
 
-echo $timer->getTime(); //still running
+echo $timer->getTime() . PHP_EOL; //still running
+
+//more code to benchmark
 
 $timer->stop();
 
+echo $timer->getTime() . PHP_EOL;
 ```
 ## TypedCollection
 
@@ -57,7 +58,7 @@ of the internal types in a form recognised by internal [gettype()](http://php.ne
 (```"boolean", "integer", "double", "string", "array", "object", "resource", "NULL"```). ```\UnexpectedValueException```
 will be thrown, when trying to add element with invalid type.
         
-Usage: 
+#### Usage:
   
 ```php
 use Lc5\Toolbox\TypedCollection\AbstractTypedCollection;
@@ -78,13 +79,13 @@ $collection[] = new \stdClass();
 try {
     $collection[] = 'invalid element';
 } catch (\UnexpectedValueException $e) {
-    echo $e->getMessage(); //Invalid element type: string. Only \stdClass is allowed.'
+    echo $e->getMessage(); //Invalid element type: string. Only \stdClass is allowed.
 }
 
 try {
     $collection = new stdClassCollection(['invalid', new \stdClass()]);
 } catch (\UnexpectedValueException $e) {
-    echo $e->getMessage(); //Invalid element type: string. Only \stdClass is allowed.'
+    echo $e->getMessage(); //Invalid element type: string. Only \stdClass is allowed.
 }
 
 ```
@@ -97,12 +98,12 @@ argument, which can be any class name or one of the internal types in a form rec
 "array", "object", "resource", "NULL"```). ```\UnexpectedValueException``` will be thrown, when trying to add element
 with invalid type.
 
-Usage:
+#### Usage:
 
 ```php
 use Lc5\Toolbox\TypedCollection\TypedCollection;
 
-$elements = [new \stdClass(), new \stdClass()]
+$elements = [new \stdClass(), new \stdClass()];
 
 $collection = new TypedCollection('\stdClass', $elements);
 
