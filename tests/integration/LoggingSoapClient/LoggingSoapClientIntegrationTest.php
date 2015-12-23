@@ -19,27 +19,33 @@ class LoggingSoapClientIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testCall()
     {
-        $logger     = new Logger();
+        $logger     = new TestLogger();
         $soapClient = new LoggingSoapClient(new TraceableSoapClient($this->serviceUrl), $logger);
 
         $soapClient->getWeather(['CityName' => 'Wroclaw', 'CountryName' => 'Poland']);
 
-        $this->assertEquals([$soapClient->__getLastRequest(), $soapClient->__getLastResponse()], $logger->messages);
+        $this->assertEquals([
+            ['message' => $soapClient->__getLastRequest(), 'context' => ['type' => 'Request']],
+            ['message' => $soapClient->__getLastResponse(), 'context' => ['type' => 'Response']]
+        ], $logger->messages);
     }
 
     public function testSoapCall()
     {
-        $logger     = new Logger();
+        $logger     = new TestLogger();
         $soapClient = new LoggingSoapClient(new TraceableSoapClient($this->serviceUrl), $logger);
 
         $soapClient->__soapCall('getWeather', [['CityName' => 'Wroclaw', 'CountryName' => 'Poland']]);
 
-        $this->assertEquals([$soapClient->__getLastRequest(), $soapClient->__getLastResponse()], $logger->messages);
+        $this->assertEquals([
+            ['message' => $soapClient->__getLastRequest(), 'context' => ['type' => 'Request']],
+            ['message' => $soapClient->__getLastResponse(), 'context' => ['type' => 'Response']]
+        ], $logger->messages);
     }
 
     public function testDoRequest()
     {
-        $logger     = new Logger();
+        $logger     = new TestLogger();
         $soapClient = new LoggingSoapClient(new TraceableSoapClient($this->serviceUrl), $logger);
 
         $request = <<<'TEXT'
@@ -56,11 +62,14 @@ TEXT;
 
         $response = $soapClient->__doRequest($request, $this->serviceUrl, 'http://www.webserviceX.NET/GetWeather', SOAP_1_1);
 
-        $this->assertEquals([$request, $response], $logger->messages);
+        $this->assertEquals([
+            ['message' => $request, 'context' => ['type' => 'Request']],
+            ['message' => $response, 'context' => ['type' => 'Response']]
+        ], $logger->messages);
     }
 }
 
-class Logger extends AbstractLogger
+class TestLogger extends AbstractLogger
 {
 
     /**
@@ -76,6 +85,6 @@ class Logger extends AbstractLogger
      */
     public function log($level, $message, array $context = [])
     {
-        $this->messages[] = $message;
+        $this->messages[] = ['message' => $message, 'context' => $context];
     }
 }
