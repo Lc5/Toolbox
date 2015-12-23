@@ -108,11 +108,11 @@ class LoggingSoapClientTest extends \PHPUnit_Framework_TestCase
         $logger
             ->expects($this->at(0))
             ->method('info')
-            ->with($request);
+            ->with($request, ['type' => LoggingSoapClient::REQUEST]);
 
         $logger
             ->expects($this->at(1))
             ->method('info')
-            ->with($response);
+            ->with($response, ['type' => LoggingSoapClient::RESPONSE]);
     }
 }

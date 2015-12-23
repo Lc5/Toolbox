@@ -12,6 +12,9 @@ use Psr\Log\LoggerInterface;
 class LoggingSoapClient
 {
 
+    const REQUEST  = 'Request';
+    const RESPONSE = 'Response';
+
     /**
      * @var TraceableSoapClient
      */
@@ -42,8 +45,8 @@ class LoggingSoapClient
         $result = call_user_func_array([$this->soapClient, $method], $arguments);
 
         if (!method_exists($this->soapClient, $method) || $method === '__soapCall') {
-            $this->logger->info($this->soapClient->__getLastRequest());
-            $this->logger->info($this->soapClient->__getLastResponse());
+            $this->logger->info($this->soapClient->__getLastRequest(), ['type' => self::REQUEST]);
+            $this->logger->info($this->soapClient->__getLastResponse(), ['type' => self::RESPONSE]);
         }
 
         return $result;
@@ -61,8 +64,8 @@ class LoggingSoapClient
     {
         $response = $this->soapClient->__doRequest($request, $location, $action, $version, $oneWay);
 
-        $this->logger->info($request);
-        $this->logger->info($response);
+        $this->logger->info($request, ['type' => self::REQUEST]);
+        $this->logger->info($response, ['type' => self::RESPONSE]);
 
         return $response;
     }

@@ -38,7 +38,7 @@ class MessageXmlFormatter extends LineFormatter
         $dom->loadXML($record['message']);
         $dom->formatOutput = true;
 
-        $record['message'] = $dom->saveXml();
+        $record['message'] = PHP_EOL . $dom->saveXml();
 
         return parent::format($record);
     }
