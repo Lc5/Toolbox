@@ -21,7 +21,7 @@ $handler->setFormatter(new MessageXmlFormatter());
 $logger = new Logger('soap');
 $logger->pushHandler($handler);
 
-$soapClient = new LoggingSoapClient(new TraceableSoapClient($this->serviceUrl), $logger);
+$soapClient = new LoggingSoapClient(new TraceableSoapClient('http://example.com'), $logger);
 
 ```
 ## Timer
