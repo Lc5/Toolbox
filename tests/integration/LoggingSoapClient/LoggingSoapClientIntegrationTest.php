@@ -62,7 +62,7 @@ TEXT;
 
 class Logger extends AbstractLogger
 {
-    
+
     /**
      * @var array
      */
