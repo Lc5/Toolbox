@@ -1,6 +1,14 @@
 # Toolbox [![Build Status](https://travis-ci.org/Lc5/Toolbox.svg?branch=master)](https://travis-ci.org/Lc5/Toolbox)
 Set of development classes and scripts.
 
+## Installation
+
+```
+$ git clone https://github.com/Lc5/Toolbox.git
+$ cd Toolbox
+$ composer install
+```
+
 ## LoggingSoapClient
  
 A SOAP client which logs every request and response using any PSR-3 logger. Can be used out of the box, as it comes
